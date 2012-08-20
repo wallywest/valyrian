@@ -1,0 +1,15 @@
+# A sample Gemfile
+source "https://rubygems.org"
+
+gemspec
+
+group :development do
+  gem 'perftools.rb'
+  gem 'unicorn'
+  gem 'foreman'
+  gem 'shotgun'
+  gem 'pry'
+  gem 'thin'
+  gem 'sinatra-reloader'
+  gem 'debugger'
+end
