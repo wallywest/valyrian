@@ -1,14 +1,15 @@
 # A sample Gemfile
-source "https://rubygems.org"
+#source "https://rubygems.org"
 
 gemspec
+gem 'multi_json'
+gem 'activesupport'
+gem 'hashie'
+gem 'mongoid', '= 3.0.4'
 
 group :development do
   gem 'perftools.rb'
   gem 'unicorn'
-  gem 'foreman'
-  gem 'shotgun'
-  gem 'pry'
   gem 'thin'
   gem 'sinatra-reloader'
   gem 'debugger'

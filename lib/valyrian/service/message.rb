@@ -1,10 +1,9 @@
 module Valyrian::Service
   class Message
-    attr_accessor :m
 
     def self.format(event)
       e = new(event)
-      e.m
+      e.message
     end
 
     def initialize(event)
@@ -14,24 +13,35 @@ module Valyrian::Service
       events = @m.delete("events")
       controller = @m.delete("controller")
       action = @m.delete("action")
+      assoc = @m.delete("assoc") || @m.delete("m")
 
+      logger.info(@m["_id"])
       pastify(action)
 
-      handler = handler_for(controller)
+      handle,value = handler_for(controller)
+      if value == :PackageEvent
+        mes = handle.new(controller,events,action,assoc).message
+      else
+        mes = handle.new(controller,events,action).message
+      end
 
-      #logger.info("#{controller} with handler #{handler}")
-      
-      h = handler.new(events,controller)
+      @m.merge!(mes)
+    end
+
+    def message
+      @m
     end
     
     def handler_for(controller)
       event_rules.each do |rule|
         rule.each_pair do |key,value|
           out = key.detect {|reg| reg =~ controller}
-          return ::Valyrian::Service.const_get(value) unless out.nil?
+          unless out.nil?
+              return ::Valyrian::Service.const_get(value),value
+          end
         end
       end
-      return ::Valyrian::Service.const_get(:Default)
+      return ::Valyrian::Service.const_get(:Default),:default
     end
 
     def logger
@@ -45,26 +55,28 @@ module Valyrian::Service
         [/destroy_multiple/,'destroyed multiple'],
         [/e$/,'ed'],
         ["copy","copied"],
-        ["destroy","destroyed"]
+        ["destroy","destroyed"],
+        ["login","logged in"],
+        ["logout", "logged out"]
       ]
     end
 
     def event_rules
       [
-        {[/company.*$/] => :CompanyEvent},
-        {[/ani_groups/,/geo_route_groups/] => :GeoRouteEvent},
+        {[/Session/,/cache_refresh/] => :StaticEvent},
+        {[/geo_route_groups/] => :GeoRouteEvent},
+        {[/company.*$/,/cache_url.*$/] => :CompanyEvent},
+        {[/geo_route_groups/] => :GeoRouteEvent},
+        {[/ani_groups/] => :AniGroupEvent},
         {[/preroute.*$/] => :PreRouteEvent},
         {[/dlis/] => :DliEvent },
-        {[/frontend_numbers/] => :FrontEndNumberEvent},
+        {[/frontend/] => :FrontEndNumberEvent},
         {[/activations/] => :ActivationEvent},
         {[/backend_number/] => :VlabelMapEvent},
         {[/packages/,/time_segments/,/profiles/,/routings/,/routing_destinations/] => :PackageEvent},
-        {[/groups/,/operations/] => :GroupOpEvent}
+        {[/^groups$/] => :GroupOpEvent},
+        {[/ivrs/] => :IvrEvent}
       ]
-    end
-
-    def msg_rules
-      Valyrian.rules
     end
 
     def pastify(action)

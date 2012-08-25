@@ -1,37 +1,49 @@
 module Valyrian::Service
 class Default
   attr_reader :message
-  def initialize(events,controller)
+  def initialize(controller,events,action)
     @events = events
     @controller = controller
-    #logger.info(events)
-    @message = {"template" => "#{controller.classify}", "main" => {}}
+    @action = action
+    @message = {"template" => template, "messages" => {}}
 
-    format_message if object_rule
-    logger.info("Message: #{@message}")
+    #set identifier for event type (name,display_name, value)
+    #main event is the title message i.e. User updated Company at
+    #categorize/group subevents/messages which can be changes/statements
+
+    @events.each do |event|
+      find_identifier(event) if @identifier.nil?
+      #find_messages(event)
+    end
+
+    #format_message if object_rule
+    #find_identifier if object_rule
+    logger.info("Message: #{@message}\n Type: #{self.class}")
   end
 
-  def format_message
+  def find_identifier(event)
+    type = event["type"]
     attributes.each do |attr|
-      h = value_from_event(attr)
-      main_event.merge!({attr => h}) if h
+      if type == object_name
+        set_identity(event["object"][attr])
+      end
     end
   end
 
 
   private
 
-  def value_from_event(attr)
-    @events.each do |e|
-      if e["type"] == object_name
-        return e["object"][attr]
-      end
-    end
-    return nil
+  def template
+    @controller.classify.downcase
+  end
+
+  def set_identity(value)
+    @identifier = value
+    @message.merge!({"identity" => value})
   end
 
   def main_event
-    @message["main"]
+    @message["messages"]
   end
 
   def logger
@@ -39,7 +51,7 @@ class Default
   end
 
   def object_name
-    object_rule["name"] ||= @controller.classify
+    object_rule["model"] ||= @controller.classify
   end
 
   def object_rule
@@ -47,14 +59,13 @@ class Default
   end
 
   def attributes
+    #returns attribute associated with identity
     object_rule["object"]
   end
 
   def rules
+    #yaml file of definitions for identifiers
     Valyrian.rules("default")
-  end
-
-  def has_subevents?
   end
 
 end

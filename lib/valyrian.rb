@@ -35,6 +35,9 @@ module Valyrian
     autoload :FrontEndNumberEvent, "valyrian/service/event_types/frontend_number"
     autoload :PackageEvent, "valyrian/service/event_types/package"
     autoload :GroupOpEvent, "valyrian/service/event_types/groupop"
+    autoload :IvrEvent, "valyrian/service/event_types/ivr"
+    autoload :AniGroupEvent, "valyrian/service/event_types/anigroup"
+    autoload :StaticEvent, "valyrian/service/event_types/static"
   end
 
   def self.logger

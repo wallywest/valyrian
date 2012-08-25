@@ -4,6 +4,7 @@ STDOUT.sync = true
 
 
 class Valyrian::Service::App < Sinatra::Base
+
   get '/test' do
     status 200
   end
@@ -13,6 +14,14 @@ class Valyrian::Service::App < Sinatra::Base
     m = protocol.fetch_all(params[:app_id].to_i)
     json('events' => m)
   end
+
+  get "/:app_id/events/:filter" do
+    filter = params[:filter]
+    filter = "Session" if filter=='session'
+    m = protocol.fetch_with_filter(params[:app_id].to_i,filter)
+    json('events' => m)
+  end
+
 
   get "/event/:oid" do
     event = protocol.fetch_event(params[:oid])
@@ -36,6 +45,8 @@ class Valyrian::Service::App < Sinatra::Base
 
   before do
     @timer = Time.now
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "GET"
   end
 
   after do

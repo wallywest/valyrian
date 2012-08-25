@@ -1,5 +1,5 @@
 module Valyrian::Service
-class GeoRouteEvent < Valyrian::Service::Default
+class AniGroupEvent < Valyrian::Service::Default
 
   def find_identifier(event)
     super
@@ -8,7 +8,7 @@ class GeoRouteEvent < Valyrian::Service::Default
 
   def find_by_association(event)
     assoc = event["assoc"]
-    set_identity(assoc["geo_route_group"]) if assoc
+    set_identity(assoc["ani_group"]) if assoc
   end
 
   def format_message
@@ -19,13 +19,13 @@ class GeoRouteEvent < Valyrian::Service::Default
   end
 
   def template
-    "georoute"
+    "anigroup"
   end
 
   def changed_events
     changed = []
     @events.each do |e|
-      changed << e["changed"]
+      changed << e["changed"] if e["changed"]
     end
     changed
   end

@@ -21,3 +21,16 @@ recorded_dnis:
   object: ['parm_name']
 groups:
   object: ['display_name']
+geo_route_groups:
+  object: ['name']
+ani_groups:
+  object: ['name']
+dlis:
+  object: ['value']
+backend_numbers:
+  model: VlabelMap
+  object: ['vlabel']
+ivrs:
+  object: ['name']
+preroutes:
+  object: ['name']
