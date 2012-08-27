@@ -5,20 +5,30 @@ class Default
     @events = events
     @controller = controller
     @action = action
-    @message = {"template" => template, "messages" => {}}
+    @message = {"template" => template, "messages" => {} }
 
     #set identifier for event type (name,display_name, value)
     #main event is the title message i.e. User updated Company at
     #categorize/group subevents/messages which can be changes/statements
-
-    @events.each do |event|
-      find_identifier(event) if @identifier.nil?
-      #find_messages(event)
-    end
-
-    #format_message if object_rule
-    #find_identifier if object_rule
+    build_events
     logger.info("Message: #{@message}\n Type: #{self.class}")
+  end
+
+  def build_events
+    @events.each do |event|
+
+      @type = event["type"]
+      @assoc = event["assoc"]
+      @object = event["object"]
+      @changed = event["changed"]
+
+      find_identifier(event) if @identifier.nil?
+      find_messages(event)
+    end
+  end
+
+  def find_messages(event)
+    changed << event["changed"] if event["changed"]
   end
 
   def find_identifier(event)
@@ -32,6 +42,24 @@ class Default
 
 
   private
+
+  def changed
+    messages["changed"] ||= []
+  end
+
+  def sub_event
+    messages["subevent"] ||= []
+  end
+
+  def add_sub_event(message)
+    unless sub_event.include?(message)
+      sub_event << message
+    end
+  end
+
+  def messages
+    @message["messages"]
+  end
 
   def template
     @controller.classify.downcase

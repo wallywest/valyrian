@@ -13,17 +13,5 @@ class CompanyEvent < Valyrian::Service::Default
     "company"
   end
 
-  def object_rule
-    true
-  end
-  
-  def changed_events
-    changed = []
-    @events.each do |e|
-      changed << e["changed"]
-    end
-    changed
-  end
-
 end
 end
