@@ -6,12 +6,12 @@ class VlabelMapEvent < Valyrian::Service::Default
   TEMPLATE = 'vlabelmap'
   PackageEvent = Proc.new{|x| "Package #{x} was created and activated"}
 
-  def find_messages(event)
+  def find_messages
     package_event if has_package
     vlabel_change_event if has_change
   end
 
-  def find_by_association(event)
+  def find_by_association
     set_identity(@assoc["group"]) if @assoc
   end
 

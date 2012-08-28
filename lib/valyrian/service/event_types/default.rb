@@ -21,21 +21,22 @@ class Default
       @assoc = event["assoc"]
       @object = event["object"]
       @changed = event["changed"]
+      @action = event["event"]
 
-      find_identifier(event) if @identifier.nil?
-      find_messages(event)
+      find_identifier if @identifier.nil?
+      find_messages
+      sub_event.flatten!
     end
   end
 
-  def find_messages(event)
-    changed << event["changed"] if event["changed"]
+  def find_messages
+    changed << @changed if @changed
   end
 
-  def find_identifier(event)
-    type = event["type"]
+  def find_identifier
     attributes.each do |attr|
-      if type == object_name
-        set_identity(event["object"][attr])
+      if @type == object_name
+        set_identity(@object[attr])
       end
     end
   end
@@ -53,7 +54,7 @@ class Default
 
   def add_sub_event(message)
     unless sub_event.include?(message)
-      sub_event << message
+        sub_event << message
     end
   end
 
