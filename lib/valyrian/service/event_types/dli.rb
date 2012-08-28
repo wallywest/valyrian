@@ -26,10 +26,7 @@ class DliEvent < Valyrian::Service::Default
       message = "Trunk #{value} created with distribution of #{dpct}"
     when "update"
       message = []
-      @changed.each do |k,v|
-        message << "Trunk #{value} changed #{k} from #{v[0]} to #{v[1]}"
-      end
-      debugger
+      @changed.each { |k,v| message << "Trunk #{value} changed #{k} from #{v[0]} to #{v[1]}" }
     else
       message = "Trunk #{value} destroyed"
     end
@@ -43,9 +40,7 @@ class DliEvent < Valyrian::Service::Default
       message = "Destination #{destination} created"
     when "update"
       message = []
-      @changed.each do |k,v|
-        message << "Destination updated from #{v[0]} to #{v[1]}"
-      end
+      @changed.each {|k,v| message << "Destination updated from #{v[0]} to #{v[1]}" }
     else
       message = "Destination #{destination} destroyed"
     end
