@@ -1,23 +1,15 @@
 module Valyrian::Service
 class GroupOpEvent < Valyrian::Service::Default
 
+  TEMPLATE = 'groupop'
 
-  def find_identifier(event)
+  def find_identifier
     super
-    find_by_association(event) if @identifier.nil?
+    find_by_association if @identifier.nil?
   end
 
-  def format_message
-    e = changed_events
-    main_event.merge!({
-      "changes" => e,
-      "context" => @context
-    })
-  end
-
-  def find_by_association(event)
-    assoc = event["assoc"]
-    set_identity(assoc["group"]) if assoc
+  def find_by_association
+    set_identity(@assoc["group"]) if @assoc
   end
 
   def object_name
@@ -25,18 +17,9 @@ class GroupOpEvent < Valyrian::Service::Default
   end
 
   def template
-    "groupop"
+    TEMPLATE
   end
   
-  def changed_events
-    changed = []
-    @events.each do |e|
-      changed << e["changed"]
-      #find_context(e) if @context.nil?
-    end
-    changed
-  end
-
 end
 end
 

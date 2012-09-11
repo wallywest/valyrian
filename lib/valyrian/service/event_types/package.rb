@@ -2,12 +2,14 @@ module Valyrian::Service
 class PackageEvent
   attr_reader :message
 
+  TEMPLATE = 'package'
+
   def initialize(controller,events,action,assoc)
     @events = events
     @controller = controller
     @action = action
     @assoc = assoc
-    @message = {"template" => template, "messages" => {}, "identifier" => identifier}
+    @message = {"template" => template, "messages" => {}, "identity" => identifier}
 
     #set identifier for event type (name,display_name, value)
     #main event is the title message i.e. User updated Company at
@@ -30,7 +32,7 @@ class PackageEvent
   end
 
   def template
-    "package"
+    TEMPLATE
   end
 
   def logger

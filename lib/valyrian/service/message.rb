@@ -20,6 +20,7 @@ module Valyrian::Service
 
       handle,value = handler_for(controller)
       if value == :PackageEvent
+        #formatting is different for package messages, needs to become more uniform
         mes = handle.new(controller,events,action,assoc).message
       else
         mes = handle.new(controller,events,action).message
@@ -51,8 +52,10 @@ module Valyrian::Service
     def action_rules
       [
         [/quick_edit.*$/,'updated'],
-        [/copy_multiple/,'copied multiple'],
-        [/destroy_multiple/,'destroyed multiple'],
+        [/copy_multiple/,'copied'],
+        [/move_multiple/,'moved'],
+        [/destroy_multiple/,'destroyed'],
+        [/create_copy/,'created'],
         [/e$/,'ed'],
         ["copy","copied"],
         ["destroy","destroyed"],
@@ -70,7 +73,7 @@ module Valyrian::Service
         {[/ani_groups/] => :AniGroupEvent},
         {[/preroute.*$/] => :PreRouteEvent},
         {[/dlis/] => :DliEvent },
-        {[/frontend/] => :FrontEndNumberEvent},
+        {[/^frontend.*$/] => :FrontEndEvent},
         {[/activations/] => :ActivationEvent},
         {[/backend_number/] => :VlabelMapEvent},
         {[/packages/,/time_segments/,/profiles/,/routings/,/routing_destinations/] => :PackageEvent},
@@ -80,7 +83,7 @@ module Valyrian::Service
     end
 
     def pastify(action)
-      result = action.to_s.dup
+      result = action
       action_rules.each { |(rule,replacement)| break if result.gsub!(rule,replacement)}
       @m["action"] = result
     end

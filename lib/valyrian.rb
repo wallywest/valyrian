@@ -12,11 +12,6 @@ module Valyrian
     @rules ||= YAML.load_file("#{lib}/valyrian/service/event_types/#{rule}.yml")
   end
 
-  def self.message_types
-    #lib = $:.last
-    #@types ||= YAML.load_file("#{lib}/valyrian/service/types.yml")
-  end
-
   autoload :Event, "valyrian/models/event"
   autoload :Version, "valyrian/models/version"
 
@@ -32,12 +27,14 @@ module Valyrian
     autoload :PreRouteEvent, "valyrian/service/event_types/preroute"
     autoload :DliEvent, "valyrian/service/event_types/dli"
     autoload :ActivationEvent, "valyrian/service/event_types/activation"
-    autoload :FrontEndNumberEvent, "valyrian/service/event_types/frontend_number"
+    autoload :FrontEndEvent, "valyrian/service/event_types/frontend"
+
     autoload :PackageEvent, "valyrian/service/event_types/package"
     autoload :GroupOpEvent, "valyrian/service/event_types/groupop"
     autoload :IvrEvent, "valyrian/service/event_types/ivr"
     autoload :AniGroupEvent, "valyrian/service/event_types/anigroup"
     autoload :StaticEvent, "valyrian/service/event_types/static"
+
   end
 
   def self.logger

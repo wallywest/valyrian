@@ -4,7 +4,7 @@ class Default
   def initialize(controller,events,action)
     @events = events
     @controller = controller
-    @action = action
+    @caction = action
     @message = {"template" => template, "messages" => {} }
 
     #set identifier for event type (name,display_name, value)
@@ -45,7 +45,7 @@ class Default
   private
 
   def changed
-    messages["changed"] ||= []
+    messages["changed"] ||= Set.new
   end
 
   def sub_event
@@ -53,6 +53,7 @@ class Default
   end
 
   def add_sub_event(message)
+    logger.info("SubEvent Message: #{@message}\n")
     unless sub_event.include?(message)
         sub_event << message
     end
@@ -63,7 +64,7 @@ class Default
   end
 
   def template
-    @controller.classify.downcase
+    @controller.singularize
   end
 
   def set_identity(value)
@@ -84,18 +85,17 @@ class Default
   end
 
   def object_rule
-   rules[@controller]
+   rules[@controller] ||= {}
   end
 
   def attributes
     #returns attribute associated with identity
-    object_rule["object"]
+    object_rule["object"] ||= []
   end
 
   def rules
     #yaml file of definitions for identifiers
     Valyrian.rules("default")
   end
-
 end
 end

@@ -3,6 +3,7 @@ class AniGroupEvent < Valyrian::Service::Default
 
   MAIN = "AniGroup"
   CHILDREN = ["AniMap"]
+  TEMPLATE = 'anigroup'
 
   def build_events
     @anis ||= {"added" => [], "removed" => []}
@@ -10,30 +11,29 @@ class AniGroupEvent < Valyrian::Service::Default
     write_ani_messages
   end
 
-  def find_identifier(event)
+  def find_identifier
     super
-    find_by_association(event) if @identifier.nil?
+    find_by_association if @identifier.nil?
   end
 
-  def find_messages(event)
-    if event["type"] == MAIN
-      changed << event["changed"] unless event["changed"].nil?
+  def find_messages
+    if @type == MAIN
+      changed << @changed if @changed
     else
-      group_message_events(event)
+      group_message_events
     end
   end
 
-  def find_by_association(event)
-    assoc = event["assoc"]
-    set_identity(assoc["ani_group"]) if assoc
+  def find_by_association
+    set_identity(@assoc["ani_group"]) if @assoc
   end
 
-  def group_message_events(event)
-    case event["event"]
+  def group_message_events
+    case @action
     when "destroy"
-      destroyed_anis << event["object"]["ani"]
+      destroyed_anis << @object["ani"]
     when "create"
-      created_anis << event["object"]["ani"]
+      created_anis << @object["ani"]
     else
       puts "BOMPB"
     end
@@ -56,7 +56,7 @@ class AniGroupEvent < Valyrian::Service::Default
   end
 
   def template
-    "anigroup"
+    TEMPLATE
   end
 
 end

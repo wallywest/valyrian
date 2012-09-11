@@ -4,3 +4,11 @@ development:
       database: audits_devel
       hosts:
         - localhost:27017
+alpha:
+  sessions:
+    default:
+      hosts:
+        - stl01sql01a.vail:27017
+        - stl01sql01b.vail:27017
+        - stl01sql01a.vail:27018
+      database: racc

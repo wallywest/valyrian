@@ -34,3 +34,9 @@ ivrs:
   object: ['name']
 preroutes:
   object: ['name']
+speed_dials:
+  model: TransferMap
+  object: ['transfer_string']
+frontend_groups:
+  model: FrontendGroup
+  object: ['group']

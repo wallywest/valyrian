@@ -1,7 +1,9 @@
 module Valyrian::Service
 class CompanyEvent < Valyrian::Service::Default
 
-  def find_identifier(event)
+  TEMPLATE = 'company'
+
+  def find_identifier
     set_identity(identifier)
   end
 
@@ -10,7 +12,7 @@ class CompanyEvent < Valyrian::Service::Default
   end
 
   def template
-    "company"
+    TEMPLATE
   end
 
 end
