@@ -1,8 +1,8 @@
 #require 'valyrian/service/event_types/frontend/uploads'
 #require 'valyrian/service/event_types/frontend/numbers'
 #require 'valyrian/service/event_types/frontend/groups'
-
 module Valyrian::Service
+
   class FrontEndEvent < Valyrian::Service::Default
 
     ASSOC = ['survey_group_id','preroute_group_id','geo_route_group_id']
@@ -24,14 +24,16 @@ module Valyrian::Service
         @caction = "uploaded"
         set_template('frontend_upload')
         
-        Valyrian::Service::FrontEnd::Upload::message(@events)
-
       when 'frontend_numbers'
         set_template('frontend_number')
+        case @caction
+        when 'destroyed'
+        when 'moved'
+          set_moved(@object["mv"].size)
+        else
+        end
 
         #adding/updating/destroying single/multiple vlabels with frontend
-        
-        #Valyrian::Service::FrontEnd::Numbers::message(@events)
         
       when 'frontend_groups'
         set_template('frontend_group')
@@ -63,6 +65,10 @@ module Valyrian::Service
 
     def set_template(t)
       @message["template"] = t
+    end
+
+    def set_moved(n)
+      @message["count"] = n
     end
 end
 end

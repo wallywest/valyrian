@@ -1,5 +1,5 @@
 module Valyrian::Service
-class PackageEvent
+class PackageEvent < Valyrian::Service::Default
   attr_reader :message
 
   TEMPLATE = 'package'
@@ -8,36 +8,39 @@ class PackageEvent
     @events = events
     @controller = controller
     @action = action
-    @assoc = assoc
-    @message = {"template" => template, "messages" => {}, "identity" => identifier}
 
-    #set identifier for event type (name,display_name, value)
-    #main event is the title message i.e. User updated Company at
-    #categorize/group subevents/messages which can be changes/statements
+    @category = assoc.delete("category")
+    @default = assoc.delete("group_default")
+    @group = assoc.delete("display_name")
+    @name = assoc.delete("name")
 
-    #@events.each do |event|
-      #find_messages(event)
-    #end
+    @assoc = assoc.merge!({"group" => @group})
+    #set_category
 
-    #format_message if object_rule
-    #find_identifier if object_rule
+    @message = {"template" => template, "identity" => @name, "meta" => @assoc}
+
     logger.info("Message: #{@message}\n Type: #{self.class}")
   end
 
 
   private
 
-  def identifier
-    @assoc["name"]
-  end
-
   def template
     TEMPLATE
   end
 
-  def logger
-    Valyrian.logger
-  end
+  #def set_category
+    #if @default == 1
+      #cat = 'default' 
+    #else
+      #if @category == 'f'
+        #cat = 'many_to_one'
+      #else
+        #cat = 'one_to_one'
+      #end
+    #end
+    #@assoc.merge!({"category" => cat.titleize})
+  #end
 
 end
 end

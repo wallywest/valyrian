@@ -40,3 +40,7 @@ speed_dials:
 frontend_groups:
   model: FrontendGroup
   object: ['group']
+frontend_numbers:
+  model: FrontendGroup
+  object: ['group']
+  
