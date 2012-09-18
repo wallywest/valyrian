@@ -1,11 +1,5 @@
-#require 'valyrian/service/event_types/frontend/uploads'
-#require 'valyrian/service/event_types/frontend/numbers'
-#require 'valyrian/service/event_types/frontend/groups'
 module Valyrian::Service
-
-  class FrontEndEvent < Valyrian::Service::Default
-
-    ASSOC = ['survey_group_id','preroute_group_id','geo_route_group_id']
+class FrontEndEvent < Valyrian::Service::Default
 
     def find_identifier
       super
@@ -23,48 +17,17 @@ module Valyrian::Service
 
         @caction = "uploaded"
         set_template('frontend_upload')
-        
-      when 'frontend_numbers'
-        set_template('frontend_number')
-        case @caction
-        when 'destroyed'
-        when 'moved'
-          set_moved(@object["mv"].size)
-        else
-        end
 
+      when 'frontend_numbers'
         #adding/updating/destroying single/multiple vlabels with frontend
-        
+        set_template('frontend_number')
+        set_moved(@object["mv"].size) if @caction == "moved"
+
       when 'frontend_groups'
         set_template('frontend_group')
         vlabel_change_event unless @changed.nil?
       else
       end
-    end
-
-    def vlabel_change_event
-      @changed.each do |key,value|
-        if ASSOC.include?(key)
-          message_for_assoc(key,value)
-        else
-          changed << {key => value}
-        end
-      end
-    end
-
-    def message_for_assoc(key,value)
-      type = key.split("_id").first
-      if value[1].nil? || value[1] == 0
-        message = "#{type.classify} option is removed"
-      else
-        return if @assoc.nil?
-        message = "#{type.classify} #{@assoc[type]} was added"
-      end
-      add_sub_event(message)
-    end
-
-    def set_template(t)
-      @message["template"] = t
     end
 
     def set_moved(n)

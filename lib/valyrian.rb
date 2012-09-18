@@ -35,6 +35,8 @@ module Valyrian
     autoload :AniGroupEvent, "valyrian/service/event_types/anigroup"
     autoload :StaticEvent, "valyrian/service/event_types/static"
 
+    autoload :Discovery, "valyrian/service/event_types/discovery"
+
   end
 
   def self.logger

@@ -1,5 +1,9 @@
 module Valyrian::Service
 class Default
+
+  include Valyrian::Service::Discovery
+  extend Valyrian::Service::Discovery
+
   attr_reader :message
   def initialize(controller,events,action)
     @events = events
@@ -96,6 +100,10 @@ class Default
   def rules
     #yaml file of definitions for identifiers
     Valyrian.rules("default")
+  end
+
+  def set_template(t)
+    @message["template"] = t
   end
 end
 end
