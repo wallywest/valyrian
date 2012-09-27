@@ -17,6 +17,18 @@ module Valyrian::Service::Protocol
     m
   end
 
+  def self.fetch_versions_all(app_id,pid)
+    id = {a: app_id.to_i, pk: pid.to_i, t: "package"}
+
+    version.where(id: id).to_a
+  end
+
+  def self.fetch_version(app_id,pid,v)
+    id = {a: app_id.to_i, pk: pid.to_i, t: "package"}
+
+    version.where(id: id).version_pairs(v)
+  end
+
   def self.fetch_event(oid)
     raw_event = event.find(oid)
   end

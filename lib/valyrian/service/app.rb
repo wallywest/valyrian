@@ -28,9 +28,15 @@ class Valyrian::Service::App < Sinatra::Base
     json('events' => event)
   end
 
-  get "/versions/:package_id" do
+  get "/:app_id/versions/:package_id" do
+    a,p,v = params[:app_id],params[:package_id],params[:v]
+    if v.nil?
+      versions = protocol.fetch_versions_all(a,p)
+    else
+      versions = protocol.fetch_version(a,p,v)
+    end
+    json("versions" => versions)
   end
-
 
   helpers do
     def json(object)
