@@ -3,7 +3,6 @@ require 'mongoid'
 require 'multi_json'
 require 'yaml'
 require 'active_support/core_ext'
-require 'pry'
 
 module Valyrian
 
