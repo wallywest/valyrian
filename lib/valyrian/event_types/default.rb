@@ -1,8 +1,8 @@
-module Valyrian::Service
+module Valyrian
 class Default
 
-  include Valyrian::Service::Discovery
-  extend Valyrian::Service::Discovery
+  include Valyrian::Discovery
+  extend Valyrian::Discovery
 
   attr_reader :message
   def initialize(controller,events,action)
@@ -23,7 +23,7 @@ class Default
 
       @type = event["type"]
       @assoc = event["assoc"]
-      @object = event["object"]
+      @object = event["object"] || event["payload"]
       @changed = event["changed"]
       @action = event["event"]
 

@@ -1,5 +1,5 @@
-module Valyrian::Service
-class IvrEvent < Valyrian::Service::Default
+module Valyrian
+class IvrEvent < Valyrian::Default
 
   def template
     "ivr"

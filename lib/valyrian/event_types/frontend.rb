@@ -1,5 +1,5 @@
-module Valyrian::Service
-class FrontEndEvent < Valyrian::Service::Default
+module Valyrian
+class FrontEndEvent < Valyrian::Default
 
     def find_identifier
       super

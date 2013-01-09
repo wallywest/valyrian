@@ -1,5 +1,5 @@
-module Valyrian::Service
-class AniGroupEvent < Valyrian::Service::Default
+module Valyrian
+class AniGroupEvent < Valyrian::Default
 
   MAIN = "AniGroup"
   CHILDREN = ["AniMap"]

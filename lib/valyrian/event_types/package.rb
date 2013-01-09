@@ -1,20 +1,24 @@
-module Valyrian::Service
-class PackageEvent < Valyrian::Service::Default
+module Valyrian
+class PackageEvent < Valyrian::Default
   attr_reader :message
 
   TEMPLATE = 'package'
 
-  def initialize(controller,events,action,assoc)
+  def initialize(controller,events,action,assoc={})
     @events = events
     @controller = controller
     @action = action
 
-    @category = assoc.delete("category")
-    @default = assoc.delete("group_default")
-    @group = assoc.delete("display_name")
-    @name = assoc.delete("name")
+    if assoc.nil?
+      @assoc = {}
+    else
+      @category = assoc.delete("category")
+      @default = assoc.delete("group_default")
+      @group = assoc.delete("display_name")
+      @name = assoc.delete("name")
+      @assoc = assoc.merge!({"group" => @group})
+    end
 
-    @assoc = assoc.merge!({"group" => @group})
     #set_category
 
     @message = {"template" => template, "identity" => @name, "meta" => @assoc}

@@ -1,5 +1,5 @@
-module Valyrian::Service
-class PreRouteEvent < Valyrian::Service::Default
+module Valyrian
+class PreRouteEvent < Valyrian::Default
 
   def build_events
     case @controller

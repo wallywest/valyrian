@@ -1,5 +1,5 @@
-module Valyrian::Service
-class CompanyEvent < Valyrian::Service::Default
+module Valyrian
+class CompanyEvent < Valyrian::Default
 
   TEMPLATE = 'company'
 

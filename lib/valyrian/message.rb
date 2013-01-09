@@ -1,4 +1,4 @@
-module Valyrian::Service
+module Valyrian
   class Message
 
     def self.format(event)
@@ -38,11 +38,11 @@ module Valyrian::Service
         rule.each_pair do |key,value|
           out = key.detect {|reg| reg =~ controller}
           unless out.nil?
-              return ::Valyrian::Service.const_get(value),value
+              return ::Valyrian.const_get(value),value
           end
         end
       end
-      return ::Valyrian::Service.const_get(:Default),:default
+      return ::Valyrian.const_get(:Default),:default
     end
 
     def logger
@@ -83,9 +83,11 @@ module Valyrian::Service
     end
 
     def pastify(action)
-      result = action
-      action_rules.each { |(rule,replacement)| break if result.gsub!(rule,replacement)}
-      @m["action"] = result
+      unless action.nil?
+        result = action
+        action_rules.each { |(rule,replacement)| break if result.gsub!(rule,replacement) }
+        @m["action"] = result
+      end
     end
 
   end

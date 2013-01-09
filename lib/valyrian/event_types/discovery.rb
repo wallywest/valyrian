@@ -1,4 +1,4 @@
-module Valyrian::Service::Discovery
+module Valyrian::Discovery
 
   VLABEL_ASSOC = ['survey_group_id','preroute_group_id','geo_route_group_id']
 

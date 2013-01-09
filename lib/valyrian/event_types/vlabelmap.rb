@@ -1,5 +1,5 @@
-module Valyrian::Service
-class VlabelMapEvent < Valyrian::Service::Default
+module Valyrian
+class VlabelMapEvent < Valyrian::Default
 
   MAIN = "VlabelMap"
   TEMPLATE = 'vlabelmap'

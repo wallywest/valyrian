@@ -1,5 +1,5 @@
-module Valyrian::Service
-class ActivationEvent < Valyrian::Service::Default
+module Valyrian
+class ActivationEvent < Valyrian::Default
 
   TEMPLATE = 'activation'
 
