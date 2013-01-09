@@ -1,4 +1,4 @@
-module Valyrian::Service
+module Valyrian
 class StaticEvent
   attr_reader :message
 

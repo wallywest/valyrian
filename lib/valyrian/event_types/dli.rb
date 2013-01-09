@@ -1,5 +1,5 @@
-module Valyrian::Service
-class DliEvent < Valyrian::Service::Default
+module Valyrian
+class DliEvent < Valyrian::Default
 
   TEMPLATE = 'dli'
   MAIN = 'Dli'

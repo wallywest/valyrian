@@ -1,5 +1,5 @@
-module Valyrian::Service
-class GeoRouteEvent < Valyrian::Service::Default
+module Valyrian
+class GeoRouteEvent < Valyrian::Default
   MAIN = "GeoRouteGroup"
   CHILDREN = ["GeoRouteAniXref"]
   TEMPLATE = 'georoute'

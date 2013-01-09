@@ -1,5 +1,5 @@
-module Valyrian::Service
-class GroupOpEvent < Valyrian::Service::Default
+module Valyrian
+class GroupOpEvent < Valyrian::Default
 
   TEMPLATE = 'groupop'
 
