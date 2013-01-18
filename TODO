@@ -5,3 +5,4 @@ specify custom subevents based on event type criteria
 
 add context to vlabels ( group/category)
 add destination/type/numbers to destinations
+fix package_event for vlabel_map
