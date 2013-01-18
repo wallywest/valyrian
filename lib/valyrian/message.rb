@@ -13,7 +13,7 @@ module Valyrian
       events = @m.delete("events")
       controller = @m.delete("controller")
       action = @m.delete("action")
-      assoc = @m.delete("assoc") || @m.delete("m")
+      assoc = @m.delete("assoc") || @m.delete("m") || @m.delete("meta")
 
       logger.info(@m["_id"])
       pastify(action)
