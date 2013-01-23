@@ -13,9 +13,14 @@ Output: => Hash object
   ip:
   user:
   ts:
+  :identity: 
   action: /created/updated/destroyed/?
   template: (client side template to render with) 
   messages: [
+    {
+      type: meta,
+      value: Message(string)
+    }
     { 
       type: change,
       value: Object/Hash
@@ -25,5 +30,6 @@ Output: => Hash object
       value: Message(string)
     }
   ]
+  meta:
 
 }

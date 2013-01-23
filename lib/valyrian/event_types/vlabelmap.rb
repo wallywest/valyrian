@@ -3,6 +3,7 @@ class VlabelMapEvent < Valyrian::Default
 
   MAIN = "VlabelMap"
   TEMPLATE = 'vlabelmap'
+  IDENTITY_FIELD = "group"
   PackageEvent = Proc.new{|x| "Package #{x} was created and activated"}
 
   def find_messages
@@ -15,7 +16,7 @@ class VlabelMapEvent < Valyrian::Default
   end
 
   def package_event
-    name = @object["name"]
+    name = @object[Valyrian::PackageEvent::IDENTITY_FIELD]
     add_sub_event(PackageEvent.call(name))
   end
 

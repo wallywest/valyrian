@@ -3,48 +3,74 @@ class PackageEvent < Valyrian::Default
   attr_reader :message
 
   TEMPLATE = 'package'
+  IDENTITY_FIELD = "name"
+  SUBEVENTS = [
+    {:type => :action,
+     :criteria => Proc.new {|x| x =~ /activate$/},
+     :method => :activation_subevent
+    },
+  ]
 
-  def initialize(controller,events,action,assoc={})
+  def initialize(controller,action,events)
     @events = events
     @controller = controller
     @action = action
+    
+    @message = EventMessage.new
 
-    if assoc.nil?
-      @assoc = {}
-    else
-      @category = assoc.delete("category")
-      @default = assoc.delete("group_default")
-      @group = assoc.delete("display_name")
-      @name = assoc.delete("name")
-      @assoc = assoc.merge!({"group" => @group})
+
+    SUBEVENTS.each do |s|
+      if s[:type] == :action
+        self.send(s[:method]) if s[:criteria].call(@action)
+      end
     end
 
-    #set_category
-
-    @message = {"template" => template, "identity" => @name, "meta" => @assoc}
+    set_defaults
+    set_template(TEMPLATE)
 
     logger.info("Message: #{@message}\n Type: #{self.class}")
   end
 
+  def set_defaults(event=nil)
+    return save_info(event) if event
+    @events.each do |event|
+      if event["type"].downcase == TEMPLATE
+        save_info(event)
+      end
+    end
+  end
+
+
+  def activation_subevent
+    @events.each do |event|
+      if event["type"].downcase == "package"
+        if event["changed"]["active"] == [true,false]
+          add_sub_event(deactivated_package(event))
+        else
+          set_defaults(event)
+        end
+      end
+    end
+  end
 
   private
+
+  def save_info(event)
+    name = event[IDENTITY_FIELD]
+    set_identity(name)
+    meta_information(event)
+  end
+
+  def meta_information(event)
+    add_meta(event["meta"])
+  end
+
+  def deactivated_package(event)
+    "Package #{event["object"][IDENTITY_FIELD]} was deactivated"
+  end
 
   def template
     TEMPLATE
   end
-
-  #def set_category
-    #if @default == 1
-      #cat = 'default' 
-    #else
-      #if @category == 'f'
-        #cat = 'many_to_one'
-      #else
-        #cat = 'one_to_one'
-      #end
-    #end
-    #@assoc.merge!({"category" => cat.titleize})
-  #end
-
 end
 end

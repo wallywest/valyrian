@@ -2,6 +2,8 @@ module Valyrian
 class PreRouteEvent < Valyrian::Default
 
   def build_events
+    binding.pry
+    #need to classify event/collectionevent
     case @controller
     when "preroute_edits"
       preroute_edit_events

@@ -2,10 +2,6 @@ module Valyrian::Discovery
 
   VLABEL_ASSOC = ['survey_group_id','preroute_group_id','geo_route_group_id']
 
-  def wtf
-    puts "wtf"
-  end
-
   def vlabel_change_event
     @changed.each do |key,value|
       if VLABEL_ASSOC.include?(key)

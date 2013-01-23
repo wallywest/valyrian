@@ -2,13 +2,11 @@ module Valyrian
 class StaticEvent
   attr_reader :message
 
-  def initialize(controller,events,action)
+  def initialize(controller,action,events)
     
     @controller = controller
-    @message = {"template" => template}
+    @message = EventMessage.new(:template => template)
 
-    #format_message if object_rule
-    #find_identifier if object_rule
     logger.info("Message: #{@message}\n Type: #{self.class}")
   end
 

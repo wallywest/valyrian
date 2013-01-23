@@ -1,17 +1,21 @@
-require 'hashie'
-require 'mongoid'
+require 'virtus'
 require 'multi_json'
 require 'yaml'
 require 'active_support/core_ext'
 
 module Valyrian
 
-  def self.rules(rule)
-    @rules ||= YAML.load_file(Rails.root + "config/valyrian.yml")
+  def self.rules
+    #@rules ||= YAML.load_file(Rails.root + "config/valyrian.yml")
+    @rules ||= YAML.load_file(Pathname.pwd.join('config/valyrian.yml'))
   end
 
-  autoload :Protocol, "valyrian/protocol"
+  autoload :Rules, "valyrian/rules"
+  autoload :Utils, "valyrian/utils"
+
   autoload :Message, "valyrian/message"
+  autoload :EventMessage, "valyrian/event_message"
+  autoload :EventParser, "valyrian/event_parser"
 
   autoload :Default, "valyrian/event_types/default"
   autoload :CompanyEvent, "valyrian/event_types/company"

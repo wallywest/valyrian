@@ -1,25 +1,30 @@
 module Valyrian
 class Default
 
+  include Valyrian::Utils
   include Valyrian::Discovery
   extend Valyrian::Discovery
 
-  attr_reader :message
-  def initialize(controller,events,action)
-    @events = events
+  attr_reader :message, :raw_events
+
+  def initialize(controller,action,events)
+
+    @raw_events = events
     @controller = controller
     @caction = action
-    @message = {"template" => template, "messages" => {} }
+
+    @message = EventMessage.new
 
     #set identifier for event type (name,display_name, value)
     #main event is the title message i.e. User updated Company at
     #categorize/group subevents/messages which can be changes/statements
-    build_events
+    
+    default_values
     logger.info("Message: #{@message}\n Type: #{self.class}")
   end
 
-  def build_events
-    @events.each do |event|
+  def default_values
+    @raw_events.each do |event|
 
       @type = event["type"]
       @assoc = event["assoc"]
@@ -28,13 +33,15 @@ class Default
       @action = event["event"]
 
       find_identifier if @identifier.nil?
-      find_messages
-      sub_event.flatten!
+      find_changes
+      set_template(template || @controller.singularize)
+
+      self.sub_events.flatten!
     end
   end
 
-  def find_messages
-    changed << @changed if @changed
+  def find_changes
+    @message.changed << @changed if @changed
   end
 
   def find_identifier
@@ -46,42 +53,28 @@ class Default
   end
 
 
-  private
-
   def changed
-    messages["changed"] ||= Set.new
+    @message.changed
   end
 
-  def sub_event
-    messages["subevent"] ||= []
+  def sub_events
+    @message.sub_events
+  end
+
+  def add_meta(h)
+    @message.meta = h
   end
 
   def add_sub_event(message)
     logger.info("SubEvent Message: #{@message}\n")
-    unless sub_event.include?(message)
-        sub_event << message
+    unless self.sub_events.include?(message)
+        @message.sub_events << message
     end
-  end
-
-  def messages
-    @message["messages"]
-  end
-
-  def template
-    @controller.singularize
   end
 
   def set_identity(value)
     @identifier = value
-    @message.merge!({"identity" => value})
-  end
-
-  def main_event
-    @message["messages"]
-  end
-
-  def logger
-    Valyrian.logger
+    @message.identity = value
   end
 
   def object_name
@@ -99,11 +92,11 @@ class Default
 
   def rules
     #yaml file of definitions for identifiers
-    Valyrian.rules("default")
+    Valyrian.rules
   end
 
   def set_template(t)
-    @message["template"] = t
+    @message.template = t
   end
 end
 end
