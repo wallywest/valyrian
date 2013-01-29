@@ -14,21 +14,21 @@ class DliEvent < Valyrian::Default
     set_identity(@assoc["dli"]) if @assoc
   end
 
-  def find_messages
+  def find_changes
+    @subevent = SubEvent.new("dli")
     self.send("#{@type.downcase}_event") if CHILDREN.include?(@type)
   end
 
   def li_event
-    value = @object["value"]
-    dpct = @object["dpct"]
+    value,dpct = @object["value"], @object["dpct"]
     case @action
     when "create"
-      message = "Trunk #{value} created with distribution of #{dpct}"
+      message = @subevent.format_for("li.create",{:value => value, :pct => dpct})
     when "update"
       message = []
-      @changed.each { |k,v| message << "Trunk #{value} changed #{k} from #{v[0]} to #{v[1]}" }
+      @changed.each { |k,v| message << @subevnet.format_for("li.update", {:value => value, :old => v[0], :new => v[1]}) }
     else
-      message = "Trunk #{value} destroyed"
+      @subevent.format_for("li.destroy",{:value => value, :pct => dpct})
     end
     add_sub_event(message)
   end
@@ -37,12 +37,12 @@ class DliEvent < Valyrian::Default
     destination = @object["destination"]
     case @action
     when "create"
-      message = "Destination #{destination} created"
+      message = @subevent.format_for("destination.create",{:destination => destination})
     when "update"
       message = []
-      @changed.each {|k,v| message << "Destination updated from #{v[0]} to #{v[1]}" }
+      @changed.each {|k,v| message << @subevent.format_for("destination.update",{:old => v[0], :new => v[1]})}
     else
-      message = "Destination #{destination} destroyed"
+      message = @subevent.format_for("destination.destroy",{:destination => destination})
     end
     add_sub_event(message)
   end

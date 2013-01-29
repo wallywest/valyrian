@@ -9,31 +9,24 @@ class GeoRouteEvent < Valyrian::Default
     find_by_association if @identifier.nil?
   end
 
-  def find_messages
-    if @type == MAIN
-      changed << @changed if @changed
-    else
-      find_association_message
-    end
-  end
-
   def find_by_association
     set_identity(@assoc["geo_route_group"]) if @assoc
   end
 
-  def find_association_message
-    return if @assoc.nil?
-    case @action
-    when 'create'
-      message = "AniGroup #{@assoc['ani_group']} is assigned to GeoRoute #{@assoc['geo_route_group']}"
-    when 'update'
-      message = "AniGroup #{@assoc['ani_group']} is assigned to GeoRoute #{@assoc['geo_route_group']}"
-    when 'destroy'
-      message = "AniGroup #{@assoc['ani_group']} is removed from GeoRoute #{@assoc['geo_route_group']}"
+
+  def find_changes
+    @subevent = Subevent.new("georoute")
+    if @type == MAIN
+      @message.changed << @changed if @changed
     else
-      puts "wtf"
+      find_association_message if @assoc
     end
-    sub_event << message
+  end
+
+  def find_association_message
+    h = {:anigroup => @assoc['ani_group'], :georoute => @assoc['geo_route_group']}
+    message = @subevent.message_for("association.#{@action}",h)
+    add_sub_event(message) if message
   end
 
   def template

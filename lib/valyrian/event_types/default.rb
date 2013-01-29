@@ -27,17 +27,16 @@ class Default
     @raw_events.each do |event|
 
       @type = event["type"]
-      @assoc = event["assoc"]
+      @assoc = event["assoc"] || event["meta"]
       @object = event["object"] || event["payload"]
       @changed = event["changed"]
-      @action = event["event"]
+      @action = event["event"] || event["action"]
 
       find_identifier if @identifier.nil?
       find_changes
-      set_template(template || @controller.singularize)
-
-      self.sub_events.flatten!
     end
+    self.sub_events.flatten!
+    set_template(template)
   end
 
   def find_changes
@@ -98,5 +97,10 @@ class Default
   def set_template(t)
     @message.template = t
   end
+
+  def template
+    @controller.singularize
+  end
+
 end
 end

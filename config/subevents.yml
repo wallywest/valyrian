@@ -1,0 +1,22 @@
+en:
+  preroute:
+    config:
+      create:  "Assigned preroute grouping %{preroute} to group %{group}"
+      destroy:  "Removed preroute grouping %{preroute} to group %{group}"
+    edit:
+      disabled:  "PreRoute disabled for group %{group}"
+      enabled:  "PreRoute enabled for group %{group}"
+  georoute:
+    association:
+      create:  "AniGroup %{anigroup} is assigned to GeoRoute %{georoute}"
+      update:  "AniGroup %{anigroup} is assigned to GeoRoute %{georoute}"
+      destroy:  "AniGroup %{anigroup} is removed from GeoRoute %{georoute}"
+  dli:
+    li:
+      create:  "Trunk %{value} created with distribution of %{pct}"
+      update:  "Trunk %{value} changed %{k} from %{old} to %{new}"
+      destroy:  "Trunk %{value} was destroyed"
+    destination:
+      create:  "Destination %{destination} created"
+      update:  "Destination update from %{old} to %{new}"
+      destroy:  "Destination %{destination} was destroyed"

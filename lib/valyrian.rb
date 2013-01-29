@@ -10,6 +10,10 @@ module Valyrian
     @rules ||= YAML.load_file(Pathname.pwd.join('config/valyrian.yml'))
   end
 
+  def self.subevent_path
+    @subevents ||= Pathname.pwd.join('config/subevents.yml')
+  end
+
   autoload :Rules, "valyrian/rules"
   autoload :Utils, "valyrian/utils"
 
@@ -33,6 +37,7 @@ module Valyrian
   autoload :StaticEvent, "valyrian/event_types/static"
 
   autoload :Discovery, "valyrian/event_types/discovery"
+  autoload :Subevent, "valyrian/event_types/subevent"
 
   def self.logger
     Logger.new("valyrian.log")

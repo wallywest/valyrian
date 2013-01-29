@@ -5,7 +5,7 @@ class AniGroupEvent < Valyrian::Default
   CHILDREN = ["AniMap"]
   TEMPLATE = 'anigroup'
 
-  def build_events
+  def default_values
     @anis ||= {"added" => [], "removed" => []}
     super
     write_ani_messages
@@ -16,7 +16,7 @@ class AniGroupEvent < Valyrian::Default
     find_by_association if @identifier.nil?
   end
 
-  def find_messages
+  def find_changes
     if @type == MAIN
       changed << @changed if @changed
     else
@@ -41,7 +41,8 @@ class AniGroupEvent < Valyrian::Default
 
   def write_ani_messages
     @anis.each do |k,v|
-      sub_event << "AniMaps #{v.join(",")} were #{k}" unless v.empty?
+      message = "AniMaps #{v.join(",")} were #{k}"
+      add_sub_event(message) unless v.empty?
     end
   end
 

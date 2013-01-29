@@ -17,8 +17,7 @@ module Valyrian
 
     attr_accessor :message
 
-
-    def format
+    def formatted
       self.action = pastify(action)
 
       event_handler = find_handler_for(controller)
@@ -32,6 +31,7 @@ module Valyrian
 
       ##@audit.attributes.merge!(handle.new(dup).message)
       self.message = handler.message
+      self.as_json.except(:events)
     end
 
   end

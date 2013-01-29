@@ -1,0 +1,53 @@
+#this may need to change
+operations:
+  object: ['vlabel_group']
+survey_groups:
+  object: ['name']
+users:
+  object: ['login']
+destinations:
+  object: ["destination_title"]
+racc_dsts:
+  object: ["dst_name"]
+dynamic_ivrs:
+  object: ['name']
+racc_ctis:
+  name: CTI
+  object: ['cti_name']
+settings:
+  object: ["name"]
+destination_properties:
+  object: ['destination_property_name']
+recorded_dnis:
+  object: ['parm_name']
+groups:
+  object: ['display_name']
+geo_route_groups:
+  object: ['name']
+ani_groups:
+  object: ['name']
+dlis:
+  object: ['value']
+backend_numbers:
+  model: VlabelMap
+  object: ['vlabel']
+ivrs:
+  object: ['name']
+preroutes:
+  object: ['name']
+speed_dials:
+  model: TransferMap
+  object: ['transfer_string']
+frontend_groups:
+  model: FrontendGroup
+  object: ['group']
+frontend_numbers:
+  model: FrontendGroup
+  object: ['group']
+preroute_edits:
+  model: FrontendGroup
+  object: ['group']
+preroute_groups:
+  object: ['group_name']
+preroute_groupings:
+  object: ['name']
