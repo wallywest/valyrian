@@ -11,6 +11,7 @@ module Valyrian
     attribute :controller, String
     attribute :action, String
     attribute :ts, String
+    attribute :user, String
     attribute :events, Array, :default => []
     attribute :changes, Integer, :default => 0
     attribute :message, Hash, :default => {}

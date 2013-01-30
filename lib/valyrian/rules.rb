@@ -28,8 +28,10 @@ module Valyrian
         {[/activations/] => :ActivationEvent},
         {[/backend_number/] => :VlabelMapEvent},
         {[/packages/,/time_segments/,/profiles/,/routings/,/routing_destinations/] => :PackageEvent},
+        {[/admin_groups$/] => :GroupOpEvent},
         {[/^groups$/] => :GroupOpEvent},
-        {[/ivrs/] => :IvrEvent}
+        {[/ivrs/] => :IvrEvent},
+        {[/location/] => :LocationEvent}
       ]
     end
 

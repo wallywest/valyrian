@@ -8,6 +8,7 @@ module Valyrian
     attribute :sub_events, Array
     attribute :identity, String
     attribute :meta, Hash
+    attribute :type, String
 
   end
 end

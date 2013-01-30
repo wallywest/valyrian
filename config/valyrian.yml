@@ -22,6 +22,9 @@ recorded_dnis:
   object: ['parm_name']
 groups:
   object: ['display_name']
+admin_groups:
+  model: Group
+  object: ['display_name']
 geo_route_groups:
   object: ['name']
 ani_groups:
@@ -50,4 +53,6 @@ preroute_edits:
 preroute_groups:
   object: ['group_name']
 preroute_groupings:
+  object: ['name']
+packages:
   object: ['name']

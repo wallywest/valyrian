@@ -35,12 +35,9 @@ class Default
       find_identifier if @identifier.nil?
       find_changes
     end
+
     self.sub_events.flatten!
     set_template(template)
-  end
-
-  def find_changes
-    @message.changed << @changed if @changed
   end
 
   def find_identifier
@@ -49,57 +46,6 @@ class Default
         set_identity(@object[attr])
       end
     end
-  end
-
-
-  def changed
-    @message.changed
-  end
-
-  def sub_events
-    @message.sub_events
-  end
-
-  def add_meta(h)
-    @message.meta = h
-  end
-
-  def add_sub_event(message)
-    logger.info("SubEvent Message: #{@message}\n")
-    unless self.sub_events.include?(message)
-        @message.sub_events << message
-    end
-  end
-
-  def set_identity(value)
-    @identifier = value
-    @message.identity = value
-  end
-
-  def object_name
-    object_rule["model"] ||= @controller.classify
-  end
-
-  def object_rule
-   rules[@controller] ||= {}
-  end
-
-  def attributes
-    #returns attribute associated with identity
-    object_rule["object"] ||= []
-  end
-
-  def rules
-    #yaml file of definitions for identifiers
-    Valyrian.rules
-  end
-
-  def set_template(t)
-    @message.template = t
-  end
-
-  def template
-    @controller.singularize
   end
 
 end

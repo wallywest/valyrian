@@ -5,6 +5,19 @@ class AniGroupEvent < Valyrian::Default
   CHILDREN = ["AniMap"]
   TEMPLATE = 'anigroup'
 
+  ASSOC_FINDER = 'ani_group'
+
+  SUBEVENTS = [
+    {:type => :action,
+     :criteria => Proc.new {|x| x == "destroy"},
+     :message => Proc.new{|ani| "AniMaps #{v.join(",")} were removed"},
+    },
+    {:type => :action,
+     :criteria => Proc.new {|x| x == "create"},
+     :message => Proc.new{|ani| "AniMaps #{v.join(",")} were created"},
+    }
+  ]
+
   def default_values
     @anis ||= {"added" => [], "removed" => []}
     super
