@@ -12,7 +12,11 @@ module Valyrian
 
     def add_sub_event(message)
       unless @message.sub_events.include?(message)
-        @message.sub_events << message
+        if message.class == Array
+          message.flatten.each {|x| @message.sub_events << x}
+        else
+          @message.sub_events << message
+        end
       end
     end
 
@@ -38,7 +42,7 @@ module Valyrian
     end
 
     def set_identity(ident)
-      @identifier = ident
+      @identity = ident
       @message.identity = ident
     end
 
@@ -76,10 +80,71 @@ module Valyrian
       value
     end
 
+    def main_type
+      if has_const?("MAIN")
+        self.class.const_get("MAIN")
+      else
+        object_name
+        #@controller.classify
+      end
+    end
+
     def has_main_type_changed?(changed)
       return false if changed.nil?
-      return false if has_const?("SUBEVENTS")
+      return false if has_changed_subevent?
+      return false if @type != main_type
       true
+    end
+
+    def matchingRule?
+      @match = false
+      if has_const?("RULES")
+        rule_definitions.each do |rule|
+          @match = rule[:criteria].call(self)
+        end
+      end
+      @match
+    end
+
+    def has_subevents?
+      has_const?("SUBEVENTS")
+    end
+
+    def has_changed_subevent?
+      return true if has_subevents? && !definitions.select {|x| x[:type] == :changed}.empty?
+      false
+    end
+
+    def definitions
+      self.class.const_get("SUBEVENTS")
+    end
+
+    def rule_definitions
+      self.class.const_get("RULES")
+    end
+
+        
+    def value_disabled?(value)
+      value.nil? || value == 0
+    end   
+
+    def diff_message(type,field,old,new)
+      if value_disabled?(old)
+        m = "#{type} #{new[field]} is enabled"
+      elsif value_disabled?(new)
+        m = "#{type} #{old[field]} is disabled"
+      else
+        m = "#{type} #{old[field]} is changed to #{new[field]}"
+      end
+    end
+
+    def diff_message_id(type,value,old,new)
+      if value_disabled?(old)
+        m = "#{type} #{value} is enabled"
+      elsif value_disabled?(new)
+        m = "#{type} is disabled"
+      else
+      end
     end
 
   end

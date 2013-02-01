@@ -26,6 +26,7 @@ module Valyrian
   autoload :GeoRouteEvent, "valyrian/events/georoute"
   autoload :VlabelMapEvent, "valyrian/events/vlabelmap"
   autoload :PreRouteEvent, "valyrian/events/preroute"
+  autoload :PreRouteEditEvent, "valyrian/events/preroute_edit"
   autoload :DliEvent, "valyrian/events/dli"
   #autoload :ActivationEvent, "valyrian/events/activation"
   autoload :FrontEndEvent, "valyrian/events/frontend"

@@ -26,11 +26,13 @@ module Valyrian
       logger.info(event_handler)
       logger.info(attributes)
 
-      handler = event_handler.new(controller,action,events)
+      begin
+        handler = event_handler.new(controller,action,events)
+      rescue Exception => e
+        binding.pry
+        reraise Valyrian::Error::InvalidMessage
+      end
       
-      #message => {:main_event => "", :sub_events => "", :changed => "", :template =>"")
-
-      ##@audit.attributes.merge!(handle.new(dup).message)
       self.message = handler.message
       self.as_json.except(:events)
     end

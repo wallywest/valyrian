@@ -20,8 +20,8 @@ module Valyrian
         {[/Session/,/cache_refresh/] => :StaticEvent},
         {[/geo_route_groups/] => :GeoRouteEvent},
         {[/company.*$/,/cache_url.*$/] => :CompanyEvent},
-        {[/geo_route_groups/] => :GeoRouteEvent},
         {[/ani_groups/] => :AniGroupEvent},
+        {[/preroute_edits/] => :PreRouteEditEvent},
         {[/preroute.*$/] => :PreRouteEvent},
         {[/dlis/] => :DliEvent },
         {[/^frontend.*$/] => :FrontEndEvent},
@@ -51,6 +51,16 @@ module Valyrian
         action_rules.each { |(rule,replacement)| break if result.gsub!(rule,replacement) }
         result
       end
+    end
+
+    def self.field_for_event(event_type)
+      extend self
+      event_rules.each do |rule|
+        if rule.values.first == event_type
+          return rule.keys
+        end
+      end
+      []
     end
 
   end

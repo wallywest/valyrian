@@ -6,7 +6,7 @@ en:
     edit:
       disabled:  "PreRoute disabled for group %{group}"
       enabled:  "PreRoute enabled for group %{group}"
-  georoute:
+  geo_route_group:
     association:
       create:  "AniGroup %{anigroup} is assigned to GeoRoute %{georoute}"
       update:  "AniGroup %{anigroup} is assigned to GeoRoute %{georoute}"

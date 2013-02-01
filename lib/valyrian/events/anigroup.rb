@@ -11,12 +11,12 @@ class AniGroupEvent < Valyrian::Default
   #subevents to render
   SUBEVENTS = [
     {:type => :action,
-     :criteria => Proc.new {|x| x == "destroy"},
-     :message => Proc.new{|ani| "AniMaps #{v.join(",")} were removed"},
+     :criteria => Proc.new {|event| event["action"] == "destroy"},
+     :message => Proc.new{|object| "AniMap #{object["ani"]} was removed"}
     },
     {:type => :action,
-     :criteria => Proc.new {|x| x == "create"},
-     :message => Proc.new{|ani| "AniMaps #{v.join(",")} were created"},
+     :criteria => Proc.new {|event| event["action"] == "create"},
+     :message => Proc.new{|object| "AniMap #{object["ani"]} was created"}
     }
   ]
 

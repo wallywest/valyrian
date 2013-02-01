@@ -1,7 +1,7 @@
 module Valyrian
   class Default
     include Valyrian::Utils
-    attr_reader :message
+    attr_reader :message,:action,:controller
 
     def initialize(controller,action,events)
       @controller,@action,@events = controller,action,events
@@ -9,7 +9,11 @@ module Valyrian
       @subevent = Subevent.new(@controller.singularize)
 
       set_template(template)
-      parse_events
+      if matchingRule?
+        parse_rule
+      else
+        parse_events
+      end
     end
 
     def parse_events
@@ -21,9 +25,6 @@ module Valyrian
         find_identifier if missing_identity?
         parse_event(event)
       end
-
-      #find_identity
-      #find_subevents
     end
       
     def template
@@ -45,9 +46,30 @@ module Valyrian
     end
 
     def parse_event(event)
-      #check_for_subevent
-      #check_for_changes
+      apply_sub_events(event) if has_subevents?
       add_change_message(event["changed"]) if has_main_type_changed?(event["changed"])
+    end
+
+    def parse_rule
+      rule_definitions.each do |rule|
+        criteria = rule[:criteria]
+        method = rule[:method]
+        self.send(method)
+      end
+    end
+
+    def apply_sub_events(event)
+      definitions.each do |rule|
+        type = rule[:type].to_s
+        criteria = rule[:criteria]
+        if rule.has_key?(:method)
+          method = rule[:method]
+          self.send(method,event) if criteria.call(event)
+        elsif rule.has_key?(:message)
+          message = rule[:message].call(event["object"]) if criteria.call(event)
+          add_sub_event(message) if message
+        end
+      end
     end
 
   end
