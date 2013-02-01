@@ -1,34 +1,45 @@
-require 'hashie'
-require 'mongoid'
+require 'virtus'
 require 'multi_json'
 require 'yaml'
 require 'active_support/core_ext'
 
 module Valyrian
 
-  def self.rules(rule)
-    @rules ||= YAML.load_file(Rails.root + "config/valyrian.yml")
+  def self.rules
+    #@rules ||= YAML.load_file(Rails.root + "config/valyrian.yml")
+    @rules ||= YAML.load_file(Pathname.pwd.join('config/valyrian.yml'))
   end
 
-  autoload :Protocol, "valyrian/protocol"
+  def self.subevent_path
+    @subevents ||= Pathname.pwd.join('config/subevents.yml')
+  end
+
+  autoload :Rules, "valyrian/rules"
+  autoload :Utils, "valyrian/utils"
+
   autoload :Message, "valyrian/message"
+  autoload :EventMessage, "valyrian/event_message"
+  autoload :EventParser, "valyrian/event_parser"
 
-  autoload :Default, "valyrian/event_types/default"
-  autoload :CompanyEvent, "valyrian/event_types/company"
-  autoload :GeoRouteEvent, "valyrian/event_types/georoute"
-  autoload :VlabelMapEvent, "valyrian/event_types/vlabelmap"
-  autoload :PreRouteEvent, "valyrian/event_types/preroute"
-  autoload :DliEvent, "valyrian/event_types/dli"
-  autoload :ActivationEvent, "valyrian/event_types/activation"
-  autoload :FrontEndEvent, "valyrian/event_types/frontend"
+  autoload :Default, "valyrian/events/default"
+  autoload :CompanyEvent, "valyrian/events/company"
+  autoload :GeoRouteEvent, "valyrian/events/georoute"
+  autoload :VlabelMapEvent, "valyrian/events/vlabelmap"
+  autoload :PreRouteEvent, "valyrian/events/preroute"
+  autoload :PreRouteEditEvent, "valyrian/events/preroute_edit"
+  autoload :DliEvent, "valyrian/events/dli"
+  #autoload :ActivationEvent, "valyrian/events/activation"
+  autoload :FrontEndEvent, "valyrian/events/frontend"
+  autoload :LocationEvent, "valyrian/events/location"
 
-  autoload :PackageEvent, "valyrian/event_types/package"
-  autoload :GroupOpEvent, "valyrian/event_types/groupop"
-  autoload :IvrEvent, "valyrian/event_types/ivr"
-  autoload :AniGroupEvent, "valyrian/event_types/anigroup"
-  autoload :StaticEvent, "valyrian/event_types/static"
+  autoload :PackageEvent, "valyrian/events/package"
+  autoload :GroupOpEvent, "valyrian/events/groupop"
+  autoload :IvrEvent, "valyrian/events/ivr"
+  autoload :AniGroupEvent, "valyrian/events/anigroup"
+  autoload :StaticEvent, "valyrian/events/static"
 
-  autoload :Discovery, "valyrian/event_types/discovery"
+  #autoload :Discovery, "valyrian/events/discovery"
+  autoload :Subevent, "valyrian/events/subevent"
 
   def self.logger
     Logger.new("valyrian.log")

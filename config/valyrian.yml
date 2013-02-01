@@ -1,5 +1,6 @@
+#this may need to change
 operations:
-  object: ['operation','vlabel_group']
+  object: ['vlabel_group']
 survey_groups:
   object: ['name']
 users:
@@ -20,6 +21,9 @@ destination_properties:
 recorded_dnis:
   object: ['parm_name']
 groups:
+  object: ['display_name']
+admin_groups:
+  model: Group
   object: ['display_name']
 geo_route_groups:
   object: ['name']
@@ -49,4 +53,6 @@ preroute_edits:
 preroute_groups:
   object: ['group_name']
 preroute_groupings:
+  object: ['name']
+packages:
   object: ['name']
