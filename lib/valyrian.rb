@@ -2,6 +2,7 @@ require 'virtus'
 require 'multi_json'
 require 'yaml'
 require 'active_support/core_ext'
+require "valyrian/error"
 
 module Valyrian
 

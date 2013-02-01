@@ -32,7 +32,7 @@ module Valyrian
         field = assoc_field_for(key.pluralize)
         m << diff_message(type,field,value[0],value[1])
       end
-      add_sub_event(m)
+      add_sub_event(m) unless m.empty?
     end
 
   end

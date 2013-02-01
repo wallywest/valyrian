@@ -129,6 +129,7 @@ module Valyrian
     end   
 
     def diff_message(type,field,old,new)
+      return if old == new
       if value_disabled?(old)
         m = "#{type} #{new[field]} is enabled"
       elsif value_disabled?(new)
