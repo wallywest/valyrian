@@ -1,7 +1,7 @@
 module Valyrian
 class AniGroupEvent < Valyrian::Default
 
-  MAIN = "AniGroup"
+  MAIN = ["AniGroup"]
   CHILDREN = ["AniMap"]
   TEMPLATE = 'anigroup'
 

@@ -1,7 +1,7 @@
 module Valyrian
   class PreRouteEditEvent< Valyrian::Default
 
-    MAIN = "VlabelMap"
+    MAIN = ["VlabelMap"]
     TEMPLATE = 'preroute_edits'
     IDENTITY_FIELD = "group"
     ASSOC = "group"

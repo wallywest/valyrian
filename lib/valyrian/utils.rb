@@ -92,7 +92,7 @@ module Valyrian
     def has_main_type_changed?(changed)
       return false if changed.nil?
       return false if has_changed_subevent?
-      return false if @type != main_type
+      return false if !main_type.include?(@type)
       true
     end
 

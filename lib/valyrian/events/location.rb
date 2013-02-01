@@ -1,7 +1,7 @@
 module Valyrian
 class LocationEvent < Valyrian::Default
 
-  MAIN = "Destination"
+  MAIN = ["Destination"]
   TEMPLATE = 'location'
 
   #add this if want to find identity with association as well

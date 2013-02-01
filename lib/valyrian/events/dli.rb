@@ -2,7 +2,7 @@ module Valyrian
 class DliEvent < Valyrian::Default
 
   TEMPLATE = 'dli'
-  MAIN = 'Dli'
+  MAIN = ['Dli']
   CHILDREN = ["Li","Destination"]
   ASSOC = 'li'
 

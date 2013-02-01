@@ -1,6 +1,6 @@
 module Valyrian
 class GeoRouteEvent < Valyrian::Default
-  MAIN = "GeoRouteGroup"
+  MAIN = ["GeoRouteGroup"]
   TEMPLATE = 'georoute'
   GEOROUTE_ASSOC = ['geo_route_group_id','ani_group_id']
 

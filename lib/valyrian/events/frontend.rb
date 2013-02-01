@@ -14,10 +14,22 @@ module Valyrian
       },
       {
         :type => :changed,
-        :criteria => Proc.new {|x| x.has_key?("changed")},
+        :criteria => Proc.new {|x| x.has_key?("changed") && x["type"] != "Operation"},
         :method => :change_event
+      },
+      {
+        :type => :object,
+        :criteria => Proc.new {|x| x.has_key?("changed") && x["type"] == "Operation"},
+        :method => :set_default_route
       }
     ]
+
+    def set_default_route(event)
+      changed = event["changed"]["newop_rec"]
+      object = event["object"]
+      m = "Default route set to #{changed[1]}"
+      add_sub_event(m)
+    end
 
     def collection_event(event)
     end

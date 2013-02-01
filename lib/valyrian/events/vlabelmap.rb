@@ -1,7 +1,7 @@
 module Valyrian
   class VlabelMapEvent < Valyrian::Default
 
-    MAIN = "VlabelMap"
+    MAIN = ["VlabelMap"]
     TEMPLATE = 'vlabelmap'
     IDENTITY_FIELD = "group"
     ASSOC = "group"
@@ -9,7 +9,7 @@ module Valyrian
 
     SUBEVENTS = [
       {:type => :object,
-       :criteria => Proc.new { @type == "Package"},
+       :criteria => Proc.new {|event| event["type"] == "Package"},
        :method => :package_event
       },
       {:type => :changed,
@@ -31,7 +31,9 @@ module Valyrian
         if VLABEL_ASSOC.include?(key)
           message_for_assoc(key,value)
         else
-          add_change_message({key => value}) unless geo_route_change(value)
+          if MAIN.include?(@type)
+            add_change_message({key => value}) unless geo_route_change(value)
+          end
         end
       end
     end
