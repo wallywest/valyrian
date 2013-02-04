@@ -18,11 +18,19 @@ module Valyrian
       }
     ]
 
-    PackageEvent = Proc.new{|x| "Package #{x} was created and activated"}
+    PackageCreate = Proc.new{|x| "Package #{x} was created and activated"}
+    PackageDestroy = Proc.new{|x| "Package #{x} was destroyed"}
 
     def package_event(event)
       name = @object[Valyrian::PackageEvent::IDENTITY_FIELD]
-      add_sub_event(PackageEvent.call(name))
+
+      case event["action"]
+      when "destroy"
+      add_sub_event(PackageDestroy.call(name))
+      when "create"
+      add_sub_event(PackageCreate.call(name))
+      else
+      end
     end
 
     def vlabel_change_event(event)
