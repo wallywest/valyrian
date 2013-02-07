@@ -19,9 +19,9 @@ module Valyrian
     attr_accessor :message
 
     def formatted
-      self.action = pastify(action)
-
       event_handler = find_handler_for(controller)
+
+      self.action = pastify(controller,action,event_handler)
 
       logger.info(event_handler)
       logger.info(attributes)
@@ -29,9 +29,10 @@ module Valyrian
       begin
         handler = event_handler.new(controller,action,events)
       rescue Exception => e
+        binding.pry
         raise Valyrian::InvalidMessage
       end
-      
+
       self.message = handler.message
       self.as_json.except(:events)
     end

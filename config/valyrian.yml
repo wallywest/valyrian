@@ -56,3 +56,4 @@ preroute_groupings:
   object: ['name']
 packages:
   object: ['name']
+  model: Package

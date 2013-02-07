@@ -21,7 +21,11 @@ module Valyrian
     end
 
     def object_ident
-      rules[@controller] ||= {}
+      if has_const?("IDENTITY_RULE")
+        rules[self.class.const_get("IDENTITY_RULE")]
+      else
+        rules[@controller] ||= {}
+      end
     end
 
     def object_name

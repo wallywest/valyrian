@@ -1,9 +1,11 @@
 module Valyrian
   class Default
     include Valyrian::Utils
-    attr_reader :message,:action,:controller
+
+    attr_accessor :message,:action,:controller
 
     def initialize(controller,action,events)
+
       @controller,@action,@events = controller,action,events
       @message = EventMessage.new(:type => self.class.to_s.gsub(/Valyrian::/,''))
       @subevent = Subevent.new(@controller.singularize)
@@ -37,11 +39,7 @@ module Valyrian
     end
 
     def find_identifier
-      if has_const?("IDENTITY")
-        identity = self.class.const_get("IDENTITY")
-      else
-        identity = find_from_object(@object,@type) || find_from_assoc(@assoc)
-      end
+      identity = find_from_object(@object,@type) || find_from_assoc(@assoc)
       set_identity(identity)
     end
 
@@ -60,7 +58,6 @@ module Valyrian
 
     def apply_sub_events(event)
       definitions.each do |rule|
-        type = rule[:type].to_s
         criteria = rule[:criteria]
         if rule.has_key?(:method)
           method = rule[:method]

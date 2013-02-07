@@ -3,13 +3,20 @@ class PackageEvent < Valyrian::Default
   attr_reader :message
 
   TEMPLATE = 'package'
+  IDENTITY_RULE = "packages"
   IDENTITY_FIELD = "name"
+  CHILDREN = ["routing_destinations","routings","time_segments","profiles"]
   RULES = [
     {:type => :object,
      :criteria => Proc.new {|audit| audit.action == "activated"},
      :method => :activation_subevent
     },
   ]
+  OVERRIDE = {
+    :action => Proc.new do |controller|
+      "updated" if CHILDREN.include?(controller)
+    end
+  }
 
   def activation_subevent
     @events.each do |event|

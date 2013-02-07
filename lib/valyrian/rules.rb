@@ -45,12 +45,14 @@ module Valyrian
       return ::Valyrian.const_get(:Default)
     end
 
-    def pastify(action)
-      unless action.nil?
-        result = action.dup
-        action_rules.each { |(rule,replacement)| break if result.gsub!(rule,replacement) }
-        result
+    def pastify(controller,action,handler)
+      result = action.dup
+      if handler.const_defined?("OVERRIDE")
+        result = handler.const_get("OVERRIDE")[:action].call(controller)
+        result = action.dup if result.nil?
       end
+      action_rules.each { |(rule,replacement)| break if result.gsub!(rule,replacement) } if result == action
+      result
     end
 
     def self.field_for_event(event_type)
