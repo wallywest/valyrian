@@ -30,8 +30,7 @@ module Valyrian
         {[/packages/,/time_segments/,/profiles/,/routings/,/routing_destinations/] => :PackageEvent},
         {[/admin_groups$/] => :GroupOpEvent},
         {[/^groups$/] => :GroupOpEvent},
-        {[/ivrs/] => :IvrEvent},
-        {[/location/] => :LocationEvent}
+        {[/ivrs/] => :IvrEvent}
       ]
     end
 
