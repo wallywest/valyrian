@@ -29,7 +29,6 @@ module Valyrian
       begin
         handler = event_handler.new(controller,action,events)
       rescue Exception => e
-        binding.pry
         raise Valyrian::InvalidMessage
       end
 

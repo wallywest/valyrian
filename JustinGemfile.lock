@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    valyrian (0.0.4)
+    valyrian (0.0.10)
       activesupport
       i18n
       multi_json
