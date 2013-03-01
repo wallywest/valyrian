@@ -7,12 +7,8 @@ class PreRouteEvent < Valyrian::Default
   #preroute_edit_event is really a vlabel_map event
   SUBEVENTS = [
     {:type => :controller,
-     :criteria => Proc.new {|x| x == "preroute_edits"},
+     :criteria => Proc.new {|event| event["type"] == "preroute_edits"},
      :method => :preroute_edit_events
-    },
-    {:type => :controller,
-     :criteria => Proc.new {|x| x == "preroute_edit_configs"},
-     :method => :config_events
     },
   ]
 
@@ -36,17 +32,6 @@ class PreRouteEvent < Valyrian::Default
     #end
   #end
 
-  def config_events
-    @raw_events.each do |event|
-      e = event["event"]
-      assoc = event["assoc"]
-      return if assoc.nil?
-      preroute = assoc["preroute_grouping"]
-      group = assoc["group"]
-      message = @subevent.message_for("config.#{action}",{:group => group, :preroute => preroute})
-      add_sub_event(message) if message
-    end
-  end
 
   def preroute_edit_events
     @raw_events.each do |event|

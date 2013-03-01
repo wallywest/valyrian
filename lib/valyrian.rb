@@ -26,10 +26,12 @@ module Valyrian
   autoload :CompanyEvent, "valyrian/events/company"
   autoload :GeoRouteEvent, "valyrian/events/georoute"
   autoload :VlabelMapEvent, "valyrian/events/vlabelmap"
+
   autoload :PreRouteEvent, "valyrian/events/preroute"
   autoload :PreRouteEditEvent, "valyrian/events/preroute_edit"
+  autoload :PreRouteConfigEvent, "valyrian/events/preroute_config"
+
   autoload :DliEvent, "valyrian/events/dli"
-  #autoload :ActivationEvent, "valyrian/events/activation"
   autoload :FrontEndEvent, "valyrian/events/frontend"
   autoload :LocationEvent, "valyrian/events/location"
 
@@ -39,7 +41,6 @@ module Valyrian
   autoload :AniGroupEvent, "valyrian/events/anigroup"
   autoload :StaticEvent, "valyrian/events/static"
 
-  #autoload :Discovery, "valyrian/events/discovery"
   autoload :Subevent, "valyrian/events/subevent"
 
   def self.logger

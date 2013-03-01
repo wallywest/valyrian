@@ -3,18 +3,31 @@ module Valyrian
     TEMPLATE = 'frontend_group'
     ASSOC = 'group'
 
+    OVERRIDE = {
+      :action => Proc.new do |controller,action|
+        "updated" if ["move_multiple","copy_multiple"].include?(action)
+      end
+    }
+
     SUBEVENTS = [
+
       {:type => :collection,
-       :criteria => Proc.new {|x| x.has_key?("collection")},
-       :method => :collection_event
+       :criteria => Proc.new {|x| x["action"] == "move_vlabels" || x["action"] == "copy_vlabels"},
+       :method => :move_vlabels_event
       },
+
       {:type => :object,
        :criteria => Proc.new {|x| x.has_key?("object")},
        :method => :object_event
       },
       {
         :type => :changed,
-        :criteria => Proc.new {|x| x.has_key?("changed") && x["type"] != "Operation"},
+        :criteria => Proc.new {|x|
+          x.has_key?("changed") &&
+          x["type"] != "Operation" &&
+          x["action"] != "move_vlabels" &&
+          x["action"] != "copy_vlabels"
+        },
         :method => :change_event
       },
       {
@@ -31,7 +44,17 @@ module Valyrian
       add_sub_event(m)
     end
 
-    def collection_event(event)
+    def move_vlabels_event(event)
+      total = event["collection"].size
+      identity = event["changed"]["group"][1]["display_name"]
+      set_identity(identity)
+
+      case event["action"]
+      when "move_vlabels"
+        add_sub_event("#{total} vlabels moved into #{identity}")
+      when "copy_vlabels"
+        add_sub_event("#{total} vlabels copied into")
+      end
     end
     
     def object_event(event)

@@ -1,8 +1,3 @@
-specify custom subevents based on event type criteria
-  example:  GeoRouteGroup updated ani_group_id
-  message:  {{user}} updated GeoRouteGroup {{}}
-                changed to use AniGroup {{name}}
-
-add context to vlabels ( group/category)
-add destination/type/numbers to destinations
-fix package_event for vlabel_map
+Look at GeoRouteGroup Event
+Fix Preroute Stuff
+Scripts for inserting missing META?

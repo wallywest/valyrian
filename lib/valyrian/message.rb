@@ -2,7 +2,6 @@ module Valyrian
   class Message
     include Rules
     include Utils
- 
     include Virtus
 
     attribute :ip, String
@@ -26,11 +25,13 @@ module Valyrian
       logger.info(event_handler)
       logger.info(attributes)
 
-      begin
+       #begin
         handler = event_handler.new(controller,action,events)
-      rescue Exception => e
-        raise Valyrian::InvalidMessage
-      end
+#      rescue Exception => e
+        #raise Valyrian::InvalidMessage
+        #binding.pry
+        #puts e.backtrace
+#      end
 
       self.message = handler.message
       self.as_json.except(:events)

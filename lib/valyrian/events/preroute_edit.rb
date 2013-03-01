@@ -1,5 +1,5 @@
 module Valyrian
-  class PreRouteEditEvent< Valyrian::Default
+  class PreRouteEditEvent < Valyrian::Default
 
     MAIN = ["VlabelMap"]
     TEMPLATE = 'preroute_edits'
@@ -9,11 +9,11 @@ module Valyrian
 
     SUBEVENTS = [
       {:type => :changed,
-       :criteria => Proc.new {|e| e.has_key?("changed") && e.has_key?("object")},
+       :criteria => Proc.new {|event| event.has_key?("changed") && event.has_key?("object")},
        :method => :object_event
       },
       {:type => :changed,
-       :criteria => Proc.new {|e| e.has_key?("changed") && e.has_key?("collection")},
+       :criteria => Proc.new {|event| event.has_key?("changed") && event.has_key?("collection")},
        :method => :collection_event
       }
     ]

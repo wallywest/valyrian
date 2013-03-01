@@ -13,7 +13,7 @@ class PackageEvent < Valyrian::Default
     },
   ]
   OVERRIDE = {
-    :action => Proc.new do |controller|
+    :action => Proc.new do |controller,action|
       "updated" if CHILDREN.include?(controller)
     end
   }
