@@ -22,6 +22,7 @@ module Valyrian
         {[/company.*$/,/cache_url.*$/] => :CompanyEvent},
         {[/ani_groups/] => :AniGroupEvent},
         {[/preroute_edits/] => :PreRouteEditEvent},
+        {[/preroute_edit_configs/] => :PreRouteConfigEvent},
         {[/preroute.*$/] => :PreRouteEvent},
         {[/dlis/] => :DliEvent },
         {[/^frontend.*$/] => :FrontEndEvent},
@@ -47,7 +48,7 @@ module Valyrian
     def pastify(controller,action,handler)
       result = action.dup
       if handler.const_defined?("OVERRIDE")
-        result = handler.const_get("OVERRIDE")[:action].call(controller)
+        result = handler.const_get("OVERRIDE")[:action].call(controller,action)
         result = action.dup if result.nil?
       end
       action_rules.each { |(rule,replacement)| break if result.gsub!(rule,replacement) } if result == action
