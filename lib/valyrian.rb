@@ -4,6 +4,8 @@ require 'yaml'
 require 'active_support/core_ext'
 require "valyrian/error"
 
+require 'valyrian/railtie.rb' if defined?(Rails)
+
 module Valyrian
 
   def self.rules
@@ -22,6 +24,7 @@ module Valyrian
   autoload :EventMessage, "valyrian/event_message"
   autoload :EventParser, "valyrian/event_parser"
 
+  autoload :EventUtils, "valyrian/events/event_utils"
   autoload :Default, "valyrian/events/default"
   autoload :CompanyEvent, "valyrian/events/company"
   autoload :GeoRouteEvent, "valyrian/events/georoute"
@@ -43,8 +46,12 @@ module Valyrian
 
   autoload :Subevent, "valyrian/events/subevent"
 
+  def self.logger=(logger)
+    @logger = logger
+  end
+  
   def self.logger
-    Logger.new("valyrian.log")
+    @logger
   end
 
 end

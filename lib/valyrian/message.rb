@@ -22,16 +22,11 @@ module Valyrian
 
       self.action = pastify(controller,action,event_handler)
 
-      logger.info(event_handler)
-      logger.info(attributes)
-
-       #begin
+      begin
         handler = event_handler.new(controller,action,events)
-#      rescue Exception => e
-        #raise Valyrian::InvalidMessage
-        #binding.pry
-        #puts e.backtrace
-#      end
+      rescue Exception => ex
+        handle_exception(ex,self.attributes)
+      end
 
       self.message = handler.message
       self.as_json.except(:events)

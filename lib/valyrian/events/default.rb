@@ -1,6 +1,6 @@
 module Valyrian
   class Default
-    include Valyrian::Utils
+    include EventUtils
 
     attr_accessor :message,:action,:controller
 

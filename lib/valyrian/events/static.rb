@@ -1,6 +1,6 @@
 module Valyrian
   class StaticEvent
-    include Valyrian::Utils
+    include EventUtils
 
     attr_accessor :message
 
