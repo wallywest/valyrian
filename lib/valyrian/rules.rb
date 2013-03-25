@@ -25,6 +25,7 @@ module Valyrian
         {[/preroute_edit_configs/] => :PreRouteConfigEvent},
         {[/preroute.*$/] => :PreRouteEvent},
         {[/dlis/] => :DliEvent },
+        {[/frontend_numbers/] => :VlabelMapEvent},
         {[/^frontend.*$/] => :FrontEndEvent},
         {[/activations/] => :ActivationEvent},
         {[/backend_number/] => :VlabelMapEvent},
