@@ -1,5 +1,5 @@
 module Valyrian
-  class ModelType
+  class ModelAudit
     include Rules
     include Utils
     include Virtus

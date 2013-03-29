@@ -1,5 +1,5 @@
 module Valyrian
-  class StatusType
+  class StatusAudit
     include Virtus
 
     attribute :ip, String
