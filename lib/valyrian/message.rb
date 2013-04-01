@@ -1,11 +1,18 @@
 module Valyrian
   class Message
-    attr_accessor :model
-    delegate :formatted, :to => :model
 
     def initialize(attributes)
       type = attributes["audit_type"] ||= "model"
-      @model = Valyrian.const_get("#{type}_audit".classify).new(attributes)
+      @type = Valyrian::Types.const_get("#{type}_audit".classify).new(attributes)
+
+      if @type.respond_to?(:formatted)
+        @type = @type.formatted
+      end
     end
+
+    def message
+      @type.as_json
+    end
+
   end
 end

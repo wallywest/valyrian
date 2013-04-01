@@ -1,5 +1,5 @@
-module Valyrian
-class CompanyEvent < Valyrian::Default
+module Valyrian::Events
+class CompanyEvent < Valyrian::Events::Default
 
   TEMPLATE = 'company'
   IDENTITY_FIELD = "Company Settings"

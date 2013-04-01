@@ -40,10 +40,10 @@ module Valyrian
       event_rules.each do |rule|
         rule.each_pair do |key,value|
           out = key.detect {|reg| reg =~ controller}
-          return ::Valyrian.const_get(value) unless out.nil?
+          return ::Valyrian::Events.const_get(value) unless out.nil?
         end
       end
-      return ::Valyrian.const_get(:Default)
+      return ::Valyrian::Events.const_get(:Default)
     end
 
     def pastify(controller,action,handler)
