@@ -1,6 +1,7 @@
 module Valyrian::Events
   class StatusEvent
     include EventUtils
+    TEMPLATE = 'status'
 
     attr_accessor :message
 
