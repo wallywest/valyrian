@@ -17,6 +17,7 @@ module Valyrian
     autoload :AniGroupEvent, "valyrian/events/model/anigroup"
     autoload :StaticEvent, "valyrian/events/model/static"
     autoload :Subevent, "valyrian/events/model/subevent"
+    autoload :BulkImportEvent, "valyrian/events/model/bulk_import"
 
     autoload :StatusEvent, "valyrian/events/status/status"
 

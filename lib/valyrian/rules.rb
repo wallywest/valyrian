@@ -18,6 +18,7 @@ module Valyrian
     def event_rules
       [
         {[/Session/,/cache_refresh/] => :StaticEvent},
+        {[/bulk_import/] => :BulkImportEvent},
         {[/geo_route_groups/] => :GeoRouteEvent},
         {[/company.*$/,/cache_url.*$/] => :CompanyEvent},
         {[/ani_groups/] => :AniGroupEvent},

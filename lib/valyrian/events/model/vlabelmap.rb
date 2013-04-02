@@ -22,13 +22,13 @@ module Valyrian::Events
     PackageDestroy = Proc.new{|x| "Package #{x} was destroyed"}
 
     def package_event(event)
-      name = @object[Valyrian::PackageEvent::IDENTITY_FIELD]
+      name = @object[Valyrian::Events::PackageEvent::IDENTITY_FIELD]
 
       case event["action"]
       when "destroy"
-      add_sub_event(PackageDestroy.call(name))
+        add_sub_event(PackageDestroy.call(name))
       when "create"
-      add_sub_event(PackageCreate.call(name))
+        add_sub_event(PackageCreate.call(name))
       else
       end
     end
