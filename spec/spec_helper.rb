@@ -7,6 +7,7 @@ require 'ostruct'
 require 'valyrian'
 require 'database_cleaner'
 require 'mongoid'
+require 'pry'
 
 Dir[SPEC_ROOT.join('support/*.rb')].each{|f| require f }
 
@@ -22,10 +23,10 @@ RSpec.configure do |config|
   # config.mock_with :rr
   config.mock_with :rspec
   config.before(:suite) do
-   DatabaseCleaner.strategy = :truncation
-   DatabaseCleaner.start
-   Mongoid.load!(SPEC_ROOT.join('config/mongoid.yml'),:test)
-   import_events
+    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.start
+    Mongoid.load!(SPEC_ROOT.join('config/mongoid.yml'),:test)
+    import_events
   end
 
   config.after(:suite) do

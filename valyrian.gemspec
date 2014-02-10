@@ -19,9 +19,6 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'i18n'
   gem.add_dependency 'verbs'
   gem.add_dependency 'coercible'
-  gem.add_development_dependency "rspec"
-  gem.add_development_dependency "database_cleaner"
-  gem.add_development_dependency "mongoid"
 
   gem.test_files    = gem.files.grep(/^spec\//)
   gem.files = `git ls-files`.split("\n")

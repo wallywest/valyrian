@@ -16,21 +16,23 @@ module Valyrian
   autoload :Types, "valyrian/types"
   autoload :Message, "valyrian/message"
 
-  def self.rules
-    #@rules ||= YAML.load_file(Rails.root + "config/valyrian.yml")
-    @rules ||= YAML.load_file(Pathname.pwd.join('config/valyrian.yml'))
-  end
+  class << self
+    def rules
+      #@rules ||= YAML.load_file(Rails.root + "config/valyrian.yml")
+      @rules ||= YAML.load_file(Pathname.pwd.join('config/valyrian.yml'))
+    end
 
-  def self.subevent_path
-    @subevents ||= Pathname.pwd.join('config/subevents.yml')
-  end
+    def subevent_path
+      @subevents ||= Pathname.pwd.join('config/subevents.yml')
+    end
 
-  def self.logger=(logger)
-    @logger = logger
-  end
-  
-  def self.logger
-    @logger
+    def logger=(logger)
+      @logger = logger
+    end
+    
+    def logger
+      @logger
+    end
   end
 
 end

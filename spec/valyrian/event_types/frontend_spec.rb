@@ -5,7 +5,6 @@ describe "FrontEndEvent" do
   before(:each) do
     @f= Alpha.frontend
     @single = @f.first
-    binding.pry
   end
 
   it "should set the template" do

@@ -10,11 +10,12 @@ describe "Valyrian Message" do
     before(:each) do
       @message = Valyrian::Message::new(@event.attributes.to_hash)
     end
+
     it "should translate the action" do
 
-      @message.should_receive(:pastify).with(@event.action)
+      Valyrian::Message.any_instance.should_receive(:formatted).with(@event.action)
 
-      @message.format
+      Valyrian::Message::new(@event.attributes.to_hash)
     end
 
     it "should find handler for a specific controller" do
@@ -25,8 +26,8 @@ describe "Valyrian Message" do
     end
 
     it "should call an instance of the event handler" do
-      @event.stub!(:events).and_return([])
-      @message.stub!(:find_handler_for).and_return(Valyrian::PackageEvent)
+      @event.stub(:events).and_return([])
+      @message.stub(:find_handler_for).and_return(Valyrian::PackageEvent)
       no = double('null object').as_null_object
       action = Valyrian::Rules.pastify(@event.action)
 
